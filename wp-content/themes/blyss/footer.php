@@ -67,7 +67,7 @@ $options = get_option('blyss_option');
 <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>-->
 <script src="<?php echo get_template_directory_uri();?>/assets/js/scripts-f54301c7cf.min.js"></script>
 <script src="<?php echo get_template_directory_uri();?>/assets/js/jquery.scroltable.js"></script>
-<?php // Zoho PageSense moved to WPCode's site-wide footer snippet, so it fires on every template (including Elementor pages) instead of only ones that call get_footer(). ?>
+<script async src="https://cdn.pagesense.io/js/blyssdental/a8b6e5b3959b4c25aa829f0b38c53be5.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js" integrity="sha512-yDlE7vpGDP7o2eftkCiPZ+yuUyEcaBwoJoIhdXv71KZWugFqEphIS3PU60lEkFaz8RxaVsMpSvQxMBaKVwA5xg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <div class="modal" id="modalmaps" tabindex="-1" role="dialog">
