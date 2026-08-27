@@ -1,0 +1,18 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30.51 30.51">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #71c0ad;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 2px;
+      }
+    </style>
+  </defs>
+  <title>yes_icon</title>
+  <g>
+    <circle class="cls-1" cx="15.255" cy="15.255" r="14.255"/>
+    <polyline class="cls-1" points="10.389 15.429 13.178 18.218 19.369 12.027"/>
+  </g>
+</svg>

@@ -1,0 +1,13 @@
+# Whitelist approach: ignore everything except the tracked custom code.
+# This repo mirrors a full local WordPress install (see PLAN.md) but only
+# wp-content/themes/blyss/ and wp-content/mu-plugins/ are deployed to live.
+/*
+!.gitignore
+
+!wp-content/
+wp-content/*
+!wp-content/themes/
+!wp-content/mu-plugins/
+
+wp-content/themes/*
+!wp-content/themes/blyss/

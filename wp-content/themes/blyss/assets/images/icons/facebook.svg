@@ -1,0 +1,18 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26.9395 26.9395">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #24705e;
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <title>fb_share</title>
+  <g>
+    <rect class="cls-1" width="26.9395" height="26.9395" rx="5"/>
+    <path id="f" class="cls-2" d="M14.9072,22.2934V13.8051h2.8493l.4253-3.3086H14.9072V8.3872c0-.9612.2636-1.6076,1.6415-1.6076h1.7521V3.8113a23.1336,23.1336,0,0,0-2.5516-.1276c-2.5261,0-4.2527,1.54-4.2527,4.3717v2.4411H8.6387v3.3086h2.8578v8.4883Z"/>
+  </g>
+</svg>
