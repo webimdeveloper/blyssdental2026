@@ -569,9 +569,12 @@ add_filter('upload_mimes', 'cc_mime_types');
 // Batch Change Canonical URLs
 function change_canonical($url) {
     global $post;
+    if ( is_front_page() ) {
+        return home_url( '/' );
+    }
     return 'https://blyssdental.com/' . $post->post_name."/";
 }
-add_filter( 'wpseo_canonical', 'change_canonical' ); 
+add_filter( 'wpseo_canonical', 'change_canonical' );
 
 
 function talk_to_our_team_trigger_zoho( $contact_data ){
