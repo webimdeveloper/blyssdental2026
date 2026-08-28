@@ -634,7 +634,7 @@ function blyss_mobile_sticky_footer_widget() {
         bottom: 0;
         width: 100%;
         z-index: 100000;
-        background-color: rgba(203, 92, 98, 0.79);
+        background-color: #316387;
         justify-content: space-between;
         align-items: center;
         padding: 10px;
@@ -645,7 +645,7 @@ function blyss_mobile_sticky_footer_widget() {
       }
       .blyss-mfw-bar a {
         color: #fff;
-        font-size: 12px;
+        font-size: 16px;
         font-weight: 500;
         text-decoration: none;
         display: flex;
@@ -713,11 +713,11 @@ function blyss_mobile_sticky_footer_widget() {
     </style>
 
     <div class="blyss-mfw-bar">
-      <a href="tel:<?php echo esc_attr( $tel_href ); ?>">
-        <img src="<?php echo esc_url( $theme_uri ); ?>/assets/images/icons/call.svg" alt="Call Us"> Call Us
-      </a>
       <a href="javascript:void(0)" id="blyss-mfw-contact-trigger">
         <img src="<?php echo esc_url( $theme_uri ); ?>/assets/images/icons/mail.svg" alt="Contact Us"> Contact Us
+      </a>
+      <a href="tel:<?php echo esc_attr( $tel_href ); ?>">
+        <img src="<?php echo esc_url( $theme_uri ); ?>/assets/images/icons/call.svg" alt="Call Us"> Call Us
       </a>
       <a href="https://maps.app.goo.gl/2oAaf9fjyvRYCU1r6?g_st=com.google.maps.preview.copy" target="_blank">
         <img src="<?php echo esc_url( $theme_uri ); ?>/assets/images/icons/location.svg" alt="Directions"> Directions
