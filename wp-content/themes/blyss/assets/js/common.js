@@ -37,7 +37,6 @@ jQuery(document).ready(function ($) {
                 item.dataset.toggle='dropdown'
             });
             cur_width='mobile';
-            $('.navbar-nav .dropdown-toggle').dropdown();
             t.removeClass("show");
             t.find('.dropdown-menu').removeClass("show")
         } else
@@ -46,7 +45,6 @@ jQuery(document).ready(function ($) {
                     delete item.dataset.toggle
                 });
                 cur_width='full';
-                $('.navbar-nav .dropdown-toggle').dropdown();
                 t.removeClass("show");
                 t.find('.dropdown-menu').removeClass("show")
             }
