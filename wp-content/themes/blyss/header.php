@@ -68,7 +68,7 @@ $options = get_option('blyss_option');
     <meta property="article:author" content="<?php echo get_the_author_meta('display_name', $post->post_author);?>">
 </head>
 
-<body>
+<body <?php body_class( 'elementor-template-full-width elementor-kit-4952 elementor-page' ); ?>>
 
 	<!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T4MPTQF"
@@ -291,18 +291,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 		</header>
 
-<script>
-var elementorFrontendConfig = {"environmentMode":{"edit":false,"wpPreview":false,"isScriptDebug":false},"i18n":{"shareOnFacebook":"Share on Facebook","shareOnX":"Share on X","pinIt":"Pin it","download":"Download","downloadImage":"Download image","fullscreen":"Fullscreen","zoom":"Zoom","share":"Share","playVideo":"Play Video","previous":"Previous","next":"Next","close":"Close","a11yCarouselPrevSlideMessage":"Previous slide","a11yCarouselNextSlideMessage":"Next slide","a11yCarouselFirstSlideMessage":"This is the first slide","a11yCarouselLastSlideMessage":"This is the last slide","a11yCarouselPaginationBulletMessage":"Go to slide"},"is_rtl":false,"breakpoints":{"xs":0,"sm":480,"md":768,"lg":1025,"xl":1440,"xxl":1600},"responsive":{"breakpoints":{"mobile":{"label":"Mobile Portrait","value":767,"default_value":767,"direction":"max","is_enabled":true},"mobile_extra":{"label":"Mobile Landscape","value":880,"default_value":880,"direction":"max","is_enabled":false},"tablet":{"label":"Tablet Portrait","value":1024,"default_value":1024,"direction":"max","is_enabled":true},"tablet_extra":{"label":"Tablet Landscape","value":1200,"default_value":1200,"direction":"max","is_enabled":false},"laptop":{"label":"Laptop","value":1366,"default_value":1366,"direction":"max","is_enabled":false},"widescreen":{"label":"Widescreen","value":2400,"default_value":2400,"direction":"min","is_enabled":false}},"hasCustomBreakpoints":false},"version":"4.2.3","is_static":false,"experimentalFeatures":{"e_font_icon_svg":true,"additional_custom_breakpoints":true,"container":true,"e_panel_promotions":true,"theme_builder_v2":true,"nested-elements":true,"e_atomic_elements":true,"atomic_widgets_should_enforce_capabilities":true,"editor_mcp":true,"e_bc_migrations":true,"e_classes":true,"global_classes_should_enforce_capabilities":true,"e_variables":true,"e_variables_manager":true,"e_opt_in_v4_page":true,"e_opt_in_v4":true,"e_components":true,"e_interactions":true,"e_widget_creation":true,"import-export-customization":true,"e_pro_atomic_form":true,"e_pro_collection_loop":true,"mega-menu":true,"e_pro_variables":true,"e_pro_interactions":true},"urls":{"assets":"https:\/\/blyssdental.com\/wp-content\/plugins\/elementor\/assets\/","ajaxurl":"https:\/\/blyssdental.com\/wp-admin\/admin-ajax.php","uploadUrl":"https:\/\/blyssdental.com\/wp-content\/uploads"},"nonces":{"floatingButtonsClickTracking":"03bfaf9cb2","atomicFormsSendForm":"856cf06d62"},"swiperClass":"swiper","settings":{"page":[],"editorPreferences":[]},"kit":{"body_background_background":"classic","active_breakpoints":["viewport_mobile","viewport_tablet"],"global_image_lightbox":"yes","lightbox_enable_counter":"yes","lightbox_enable_fullscreen":"yes","lightbox_enable_zoom":"yes","lightbox_enable_share":"yes","lightbox_title_src":"title","lightbox_description_src":"description"},"post":{"id":2,"title":"San%20Diego%20Cosmetic%20Dentist%20%7C%20Blyss%20Cosmetic%20Dentistry","excerpt":"","featuredImage":false}};
-
-</script>
-<script id="elementor-webpack-runtime-js" src="https://blyssdental.com/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js?ver=4.2.3"></script>
-<script id="elementor-frontend-modules-js" src="https://blyssdental.com/wp-content/plugins/elementor/assets/js/frontend-modules.min.js?ver=4.2.3"></script>
-<script id="elementor-frontend-js" src="https://blyssdental.com/wp-content/plugins/elementor/assets/js/frontend.min.js?ver=4.2.3"></script>
-<script id="elementor-v2-frontend-handlers-js" src="https://blyssdental.com/wp-content/plugins/elementor/assets/js/packages/frontend-handlers/frontend-handlers.min.js?ver=4.2.3"></script>
-<script id="elementor-v2-action-link-handlers-js" src="https://blyssdental.com/wp-content/plugins/elementor/assets/js/atomic-widgets-action-link-handler.min.js?ver=4.2.3"></script>
-<script id="elementor-pro-webpack-runtime-js" src="https://blyssdental.com/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js?ver=4.2.2"></script>
-<script id="elementor-pro-frontend-js" src="https://blyssdental.com/wp-content/plugins/elementor-pro/assets/js/frontend.min.js?ver=4.2.2"></script>
-<script id="pro-elements-handlers-js" src="https://blyssdental.com/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min.js?ver=4.2.2"></script>
+<?php
+// Defer this JS (Elementor core/pro bundles + config + sticky header script) to wp_footer,
+// matching how Elementor natively loads it on pages it renders directly. Loading it here
+// (early, right after the header) caused Elementor's own widget-handler registration for
+// the mega menu to run before the rest of the page existed, breaking dropdown clicks.
+ob_start();
+?>
 
 <style>
   header:has(> .wa-header) {
@@ -376,3 +371,55 @@ var elementorFrontendConfig = {"environmentMode":{"edit":false,"wpPreview":false
 })();
 </script>
 
+<script>
+// Mega-menu dropdown stretch fix.
+// Elementor's own "StretchedMenuItemContent" handler (mega-menu-stretch-content
+// bundle) is supposed to set the --stretch-left/--stretch-right/--stretch-width
+// CSS custom properties that widget-mega-menu.min.css uses to make the dropdown
+// panel span the full viewport width instead of just its narrow nav-item box.
+// On pages that use this hardcoded header (not rendered by Elementor itself),
+// that handler never runs, so those custom properties stay unset and the panel
+// falls back to the width of its positioned ancestor (~450px), rendering far to
+// the right instead of stretched under the nav. This replicates the same
+// calculation manually whenever a dropdown panel becomes active.
+(function () {
+  function applyStretch(content) {
+    var parent = content.offsetParent;
+    if (!parent) return;
+    var parentRect = parent.getBoundingClientRect();
+    var vw = document.documentElement.clientWidth;
+    content.style.setProperty('--stretch-left', (-parentRect.left) + 'px');
+    content.style.setProperty('--stretch-right', (-(vw - parentRect.right)) + 'px');
+    content.style.setProperty('--stretch-width', vw + 'px');
+  }
+
+  function stretchAllActive() {
+    document.querySelectorAll('.e-n-menu-content.e-active').forEach(applyStretch);
+  }
+
+  document.addEventListener('click', function () {
+    requestAnimationFrame(stretchAllActive);
+  }, true);
+
+  window.addEventListener('resize', stretchAllActive);
+
+  var mo = new MutationObserver(function (mutations) {
+    mutations.forEach(function (m) {
+      var el = m.target;
+      if (el.classList && el.classList.contains('e-n-menu-content') && el.classList.contains('e-active')) {
+        applyStretch(el);
+      }
+    });
+  });
+  document.querySelectorAll('.e-n-menu-content').forEach(function (el) {
+    mo.observe(el, { attributes: true, attributeFilter: ['class'] });
+  });
+})();
+</script>
+
+
+<?php
+$blyss_header_v3_deferred_scripts = ob_get_clean();
+add_action( 'wp_footer', function() use ( $blyss_header_v3_deferred_scripts ) {
+	echo $blyss_header_v3_deferred_scripts;
+} );
