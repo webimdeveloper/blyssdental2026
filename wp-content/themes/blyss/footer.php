@@ -81,54 +81,13 @@ $options = get_option('blyss_option');
     </div>
 </div>
 
-<!-- modal contact -->
-    <div class="modal" id="modalBookAnAppointment_2" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content modal-form-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Book your appointment</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <iframe 
-          src="https://link.msgsndr.com/widget/form/uZTi73zLUU8zGTzMyczN"
-          style="width:100%;height:100%;border:none;border-radius:27px"
-          id="inline-uZTi73zLUU8zGTzMyczN" 
-        data-layout="{'id':'INLINE'}"
-        data-trigger-type="alwaysShow"
-        data-trigger-value=""
-        data-activation-type="alwaysActivated"
-        data-activation-value=""
-        data-deactivation-type="neverDeactivate"
-        data-deactivation-value=""
-        data-form-name="    "
-        data-height="633"
-        data-layout-iframe-id="inline-uZTi73zLUU8zGTzMyczN"
-        data-form-id="uZTi73zLUU8zGTzMyczN"
-        title="    "
-      >
-        </iframe>
-        <script src="https://link.msgsndr.com/js/form_embed.js"></script>
-            </div>
-            <div class="modal-content modal-success-content d-none">
-                <div class="success-block">
-                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve" preserveAspectRatio="xMidYMid meet"><g><circle class="wi-circle" cx="50" cy="49.9999657" r="47.5"></circle><circle class="wi-circle-dash" cx="50" cy="49.9999657" r="47.5"></circle>
-                            <polyline class="wi-check" points="28.6469955,52.0561066 42.2152748,65.6243896 71.3530045,36.4866562"></polyline>
-                            <polyline class="wi-check-dash" points="28.6469955,52.0561066 42.2152748,65.6243896 71.3530045,36.4866562"></polyline></g></svg>
-                    <h3>Thank You!</h3>
-                    <p>We'll contact with you ASAP. </p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- end modal contact -->
-
-    <!-- mobile footer widget -->
-        <div class="mobile-footer-widget">
-            <a href="tel:858-799-0570"><img src="<?php echo get_template_directory_uri();?>/assets/images/icons/call.svg" alt="Call Us" width="48" height="48"> Call Us</a>
-            <a href="javascript:void(0)" data-toggle="modal" data-target="#modalBookAnAppointment_2"><img src="<?php echo get_template_directory_uri();?>/assets/images/icons/mail.svg" alt="Email Us" width="48" height="48"> Contact Us</a>
-            <a href="https://maps.app.goo.gl/2oAaf9fjyvRYCU1r6?g_st=com.google.maps.preview.copy" target="_blank"><img src="<?php echo get_template_directory_uri();?>/assets/images/icons/location.svg" alt="View Direction" width="48" height="48"> Directions</a>
-        </div>
-    <!-- end mobile footer widget -->
+<!-- The "Book an Appointment" modal + mobile sticky footer widget (Call /
+     Contact / Directions) used to be hardcoded here. Both are now emitted
+     sitewide by blyss_mobile_sticky_footer_widget() (functions.php), hooked
+     to wp_footer() below - centralized so every page (including pages
+     Elementor renders natively, which never included this file at all)
+     gets the same, single, up-to-date copy instead of several
+     independently-drifting ones. -->
 
 <?php wp_footer(); ?>
 

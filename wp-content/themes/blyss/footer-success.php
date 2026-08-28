@@ -68,28 +68,11 @@ $options = get_option('blyss_option');
     </div>
 </div>
 
-<!-- modal contact -->
-    <div class="modal" id="modalBookAnAppointment_2" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content modal-form-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Book your appointment</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <?php echo do_shortcode('[contact-form-7 id="229" title="Book your appointment"]'); ?>
-            </div>
-            <div class="modal-content modal-success-content d-none">
-                <div class="success-block">
-                    <svg version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve" preserveAspectRatio="xMidYMid meet"><g><circle class="wi-circle" cx="50" cy="49.9999657" r="47.5"></circle><circle class="wi-circle-dash" cx="50" cy="49.9999657" r="47.5"></circle>
-                            <polyline class="wi-check" points="28.6469955,52.0561066 42.2152748,65.6243896 71.3530045,36.4866562"></polyline>
-                            <polyline class="wi-check-dash" points="28.6469955,52.0561066 42.2152748,65.6243896 71.3530045,36.4866562"></polyline></g></svg>
-                    <h3>Thank You!</h3>
-                    <p>We'll contact with you ASAP. </p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- end modal contact -->
+<!-- This modal was orphaned here (nothing on success.php ever triggered
+     it) and used an old Contact Form 7 form, out of sync with the rest of
+     the site. The "Book an Appointment" modal + mobile sticky footer widget
+     are now emitted sitewide by blyss_mobile_sticky_footer_widget()
+     (functions.php), hooked to wp_footer() below. -->
 
 <?php wp_footer(); ?>
 

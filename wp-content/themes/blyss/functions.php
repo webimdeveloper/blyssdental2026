@@ -604,3 +604,157 @@ function talk_to_our_team_trigger_zoho( $contact_data ){
 }
 
 add_action( 'wpcf7_before_send_mail', 'talk_to_our_team_trigger_zoho' );
+// Sitewide mobile sticky footer widget (Call / Contact / Directions) + its
+// "Book an Appointment" modal. Centralized here (hooked to wp_footer, which
+// fires on every page WordPress renders, including pages Elementor renders
+// natively like the homepage) instead of being duplicated per-template,
+// since:
+//  - three separate copies (footer.php, footer-blog.php, footer-success.php)
+//    had drifted out of sync (footer-success.php's modal still used an old
+//    Contact Form 7 shortcode instead of the GoHighLevel form the other two
+//    use, and was actually orphaned/unused - nothing on that page triggered
+//    it)
+//  - Elementor-native pages (the homepage) don't load Bootstrap's JS/CSS at
+//    all, so the old data-toggle="modal" trigger wouldn't have done
+//    anything there even if the markup were copied over
+// This version is fully self-contained (its own scoped CSS + plain-JS
+// open/close, no Bootstrap dependency), so it renders and works identically
+// on every page regardless of what else that page loads.
+function blyss_mobile_sticky_footer_widget() {
+    $options = get_option( 'blyss_option' );
+    $tel     = isset( $options['tel'] ) ? $options['tel'] : '858-799-0570';
+    $tel_href = preg_replace( '/[^0-9+]/', '', $tel );
+    $theme_uri = get_template_directory_uri();
+    ?>
+    <style>
+      .blyss-mfw-bar {
+        display: none;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        z-index: 100000;
+        background-color: rgba(203, 92, 98, 0.79);
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+      @media only screen and (max-width: 991px) {
+        .blyss-mfw-bar { display: flex; }
+      }
+      .blyss-mfw-bar a {
+        color: #fff;
+        font-size: 12px;
+        font-weight: 500;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        flex: 1;
+        justify-content: center;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      .blyss-mfw-bar a img {
+        width: 24px;
+        height: 24px;
+        margin-right: 8px;
+      }
+      .blyss-mfw-modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 100001;
+        background: rgba(0, 0, 0, 0.6);
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+      .blyss-mfw-modal-overlay.blyss-mfw-open { display: flex; }
+      .blyss-mfw-modal-box {
+        background: #fff;
+        border-radius: 8px;
+        width: 100%;
+        max-width: 480px;
+        max-height: 90vh;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+      .blyss-mfw-modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 20px;
+        border-bottom: 1px solid #eee;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      .blyss-mfw-modal-header h5 {
+        margin: 0;
+        font-size: 18px;
+        color: #233556;
+      }
+      .blyss-mfw-modal-close {
+        background: none;
+        border: none;
+        font-size: 24px;
+        line-height: 1;
+        cursor: pointer;
+        color: #233556;
+        padding: 0;
+      }
+      .blyss-mfw-modal-box iframe {
+        width: 100%;
+        height: 70vh;
+        border: none;
+        display: block;
+      }
+    </style>
+
+    <div class="blyss-mfw-bar">
+      <a href="tel:<?php echo esc_attr( $tel_href ); ?>">
+        <img src="<?php echo esc_url( $theme_uri ); ?>/assets/images/icons/call.svg" alt="Call Us"> Call Us
+      </a>
+      <a href="javascript:void(0)" id="blyss-mfw-contact-trigger">
+        <img src="<?php echo esc_url( $theme_uri ); ?>/assets/images/icons/mail.svg" alt="Contact Us"> Contact Us
+      </a>
+      <a href="https://maps.app.goo.gl/2oAaf9fjyvRYCU1r6?g_st=com.google.maps.preview.copy" target="_blank">
+        <img src="<?php echo esc_url( $theme_uri ); ?>/assets/images/icons/location.svg" alt="Directions"> Directions
+      </a>
+    </div>
+
+    <div class="blyss-mfw-modal-overlay" id="blyss-mfw-modal-overlay">
+      <div class="blyss-mfw-modal-box">
+        <div class="blyss-mfw-modal-header">
+          <h5>Book your appointment</h5>
+          <button type="button" class="blyss-mfw-modal-close" id="blyss-mfw-modal-close" aria-label="Close">&times;</button>
+        </div>
+        <iframe src="https://link.msgsndr.com/widget/form/uZTi73zLUU8zGTzMyczN" id="blyss-mfw-form-iframe" title="Book your appointment"></iframe>
+      </div>
+    </div>
+
+    <script src="https://link.msgsndr.com/js/form_embed.js"></script>
+    <script>
+    (function () {
+      var trigger = document.getElementById('blyss-mfw-contact-trigger');
+      var overlay = document.getElementById('blyss-mfw-modal-overlay');
+      var closeBtn = document.getElementById('blyss-mfw-modal-close');
+      if (!trigger || !overlay || !closeBtn) return;
+
+      function open() { overlay.classList.add('blyss-mfw-open'); }
+      function close() { overlay.classList.remove('blyss-mfw-open'); }
+
+      trigger.addEventListener('click', open);
+      closeBtn.addEventListener('click', close);
+      overlay.addEventListener('click', function (evt) {
+        if (evt.target === overlay) close();
+      });
+      document.addEventListener('keydown', function (evt) {
+        if (evt.key === 'Escape') close();
+      });
+    })();
+    </script>
+    <?php
+}
+add_action( 'wp_footer', 'blyss_mobile_sticky_footer_widget' );
