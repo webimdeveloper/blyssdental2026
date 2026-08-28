@@ -90,7 +90,7 @@ $options = get_option('blyss_option');
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <iframe 
-          src="https://link.blyssdental.com/widget/form/uZTi73zLUU8zGTzMyczN" 
+          src="https://link.msgsndr.com/widget/form/uZTi73zLUU8zGTzMyczN"
           style="width:100%;height:100%;border:none;border-radius:27px"
           id="inline-uZTi73zLUU8zGTzMyczN" 
         data-layout="{'id':'INLINE'}"
@@ -107,7 +107,7 @@ $options = get_option('blyss_option');
         title="    "
       >
         </iframe>
-        <script src="https://link.blyssdental.com/js/form_embed.js"></script>
+        <script src="https://link.msgsndr.com/js/form_embed.js"></script>
             </div>
             <div class="modal-content modal-success-content d-none">
                 <div class="success-block">
