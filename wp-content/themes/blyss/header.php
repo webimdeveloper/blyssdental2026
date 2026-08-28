@@ -498,18 +498,25 @@ var ElementorProFrontendConfig = {"ajaxurl":"https:\/\/blyssdental.com\/wp-admin
 
     // The stretched panel is just a full-viewport positioning frame - its
     // inner .e-con (the actual visible content box) keeps its own natural
-    // width and is centered under the nav item's trigger via an inline
-    // `left` offset (confirmed against the same markup on the working
-    // homepage: inner.left = triggerCenterX - panelLeft - innerWidth/2).
+    // width and gets an inline `left` offset. This differs by breakpoint
+    // (confirmed against the working homepage's own markup in both modes):
+    //  - desktop: centered under the nav item's trigger
+    //    (inner.left = triggerCenterX - panelLeft - innerWidth/2)
+    //  - mobile (<=1024px): NOT centered - a fixed 128px indent from the
+    //    panel's left edge, matching a plain nested-list sub-item layout
     var item = panel.closest('.e-n-menu-item');
     var titleEl = item && item.querySelector('.e-n-menu-title');
     var inner = panel.querySelector('.e-con');
     if (titleEl && inner) {
-      var triggerRect = titleEl.getBoundingClientRect();
-      var panelRect = panel.getBoundingClientRect();
-      var triggerCenter = triggerRect.left + triggerRect.width / 2;
-      var left = triggerCenter - panelRect.left - inner.offsetWidth / 2;
-      inner.style.left = left + 'px';
+      if (document.documentElement.clientWidth <= 1024) {
+        inner.style.left = '128px';
+      } else {
+        var triggerRect = titleEl.getBoundingClientRect();
+        var panelRect = panel.getBoundingClientRect();
+        var triggerCenter = triggerRect.left + triggerRect.width / 2;
+        var left = triggerCenter - panelRect.left - inner.offsetWidth / 2;
+        inner.style.left = left + 'px';
+      }
     }
   }
 
