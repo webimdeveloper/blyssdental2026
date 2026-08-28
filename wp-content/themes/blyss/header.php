@@ -446,8 +446,17 @@ var ElementorProFrontendConfig = {"ajaxurl":"https:\/\/blyssdental.com\/wp-admin
     });
   }
 
+  // On some pages (not all - depends on this page's own content/script
+  // loading order) Elementor's own JS init does NOT crash the way it does
+  // elsewhere, and its own native click handler for this widget also
+  // registers - firing alongside ours on the same element and undoing each
+  // other's toggle (open, then immediately closed again, net no-op).
+  // stopImmediatePropagation() ensures ONLY our handler acts, regardless of
+  // whether Elementor's own (registered later, since it only attaches once
+  // its deferred document-ready callback runs) is also present.
   document.querySelectorAll('.e-n-menu-title').forEach(function (titleEl) {
-    titleEl.addEventListener('click', function () {
+    titleEl.addEventListener('click', function (evt) {
+      evt.stopImmediatePropagation();
       var p = getPanelForTitle(titleEl);
       if (!p.panel || !p.btn) return;
       var isOpen = p.btn.getAttribute('aria-expanded') === 'true';
@@ -463,7 +472,8 @@ var ElementorProFrontendConfig = {"ajaxurl":"https:\/\/blyssdental.com\/wp-admin
 
   var mobileToggle = document.getElementById('menu-toggle-117');
   if (mobileToggle) {
-    mobileToggle.addEventListener('click', function () {
+    mobileToggle.addEventListener('click', function (evt) {
+      evt.stopImmediatePropagation();
       var open = mobileToggle.getAttribute('aria-expanded') === 'true';
       mobileToggle.setAttribute('aria-expanded', open ? 'false' : 'true');
       if (open) closeAll(null);
