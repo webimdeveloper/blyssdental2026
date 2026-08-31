@@ -109,3 +109,8 @@ $options = get_option('blyss_option');
 </script>
 </body>
 </html>
+<!-- Smileviz floating widget -->
+<script src="https://app.smileviz.com/widget.js"
+    data-smileviz="blyssdental"
+    data-flow="self-simulate"
+    data-color="#40AE95"></script>
